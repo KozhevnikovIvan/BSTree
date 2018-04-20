@@ -1,35 +1,32 @@
 namespace BSTree {
 struct Node {
   int key;
+  int value;
   Node* left;
   Node* right;
-};
 class Tree {
   Node* root;
-  void add_node(int key, Node*& root);
-  void showTree(Node* node, int field);
+  void Add_node(int key, Node*& root);
+  void ShowTree(Node* node, int field);
   void PreOrderTree(Node* node);
   void InOrderTree(Node* node);
   void PostOrderTree(Node* node);
-  bool AddTo(Node*& root, int value);
-  bool Deletenode(Node* root, int value);
+  bool Deletenode(Node*& root, int value);
   void Deletetree(Node *&node);
-  //void WriteInFile(Node *root, std::string name);
+  void WriteInFile(Node *root, string name);
   bool LoadfromfileTree(Node* root);
 
 public:
   Tree();
-  bool zero();
-  void show();
-  void insert(int key);
+  bool Zero();
+  void Show();
+  void Insert(int key);
   void PreOrder();
   void InOrder();
   void PostOrder();
-  bool Add(int value);
-  bool Deleten();
+  bool Deleten(int value);
   void Deletetr();
-  //void Write();
+  void Write();
   bool Loadfromfile();
 };
 }
-
