@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
           cout << "Дерево пусто" << endl;
         break;
       case 3:
-        cout << "Введите значение для нового узла:"<<endl;
+        cout << "Введите значение для нового узла:" << endl;
         int key;
         cin >> key;
         tree->Insert(key);
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
       case 4:
         cout << "Введите значение для нового узла" << endl;
         int value;
-        cin>>value;
+        cin >> value;
         tree->Deleten(value);
         break;
       case 5:
@@ -69,6 +69,11 @@ int main(int argc, char *argv[]) {
       case 6:
         tree->Deletetr();
         tree->Loadfromfile();
+        break;
+      case 7:
+        cout << "Введите значение для искомого узла" << endl;
+        cin >> value;
+        tree->VerificationNode(value);
         break;
       case 8: {
         cout << "Вы уверенны, что хотите выйти из программы?" << endl;
