@@ -1,6 +1,7 @@
 #include <iostream>
 #include "bstree.h"
 #include <fstream>
+#include <cstring>
 
 using namespace BSTree;
 using namespace std;
@@ -38,16 +39,16 @@ void Tree::Insert(int key) { Add_node(key, root); }
 
 void Tree::ShowTree(Node* node, int field) {
   if (root != nullptr) {
-    cout << "   ";
-    if (node->left != nullptr) {
-      ShowTree(node->left, field + 1);
+    cout << "  ";
+    if (node->right != nullptr) {
+      ShowTree(node->right, field + 1);
       for (int i = 0; i < field; i++) {
         cout << " ";
       }
     }
     cout << node->key << endl;
-    if (node->right != nullptr) {
-      ShowTree(node->right, field + 1);
+    if (node->left != nullptr) {
+      ShowTree(node->left, field + 1);
     }
   }
 }
@@ -111,7 +112,7 @@ void Tree::Deletetr() { Deletetree(root); }
 
 bool Tree::Deletenode(Node*& root, int value) {
   if (root == nullptr) {
-    return root;
+    return false;
   }
   if (value < root->key) {
     root->left;
@@ -134,15 +135,6 @@ bool Tree::Deletenode(Node*& root, int value) {
 
 bool Tree::Deleten(int value) { Deletenode(root, value); }
 
-void Tree::WriteInFile(Node* root, std::string name) {
-  ofstream fout(name, ios::app);
-  if (root == nullptr) return;
-  WriteInFile(root->left, name);
-  fout << root->key << endl;
-  WriteInFile(root->right, name);
-  fout.close();
-}
-
 void Tree::Write() {
   string name;
   cout << "Введите название файла: ";
@@ -156,8 +148,19 @@ void Tree::Write() {
   fin.close();
   if ((ch_3 == "y") || (ch_3 == "Да") || (ch_3 == "Yes") || (ch_3 == "да") ||
       (ch_3 == "yes")) {
+    ofstream fout(name, ios_base::out | ios_base::trunc); 
+    fout.close();
     WriteInFile(root, name);
   }
+}
+
+void Tree::WriteInFile(Node* root, std::string name) { 
+  ofstream fout(name, ios::app); 
+  if (root == nullptr) return; 
+  fout << root->key << endl; 
+  WriteInFile(root->left, name); 
+  WriteInFile(root->right, name); 
+  fout.close(); 
 }
 
 bool Tree::LoadfromfileTree(Node* root) {
@@ -166,17 +169,9 @@ bool Tree::LoadfromfileTree(Node* root) {
   cin >> file_name;
   ifstream fin(file_name);
   if (!fin.is_open()) return false;
-  string str;
-  getline(fin, str);
-  int elements = 1;
-  for (int i = 0; i < str.length(); i++) {
-    if (str[i] == ' ') elements++;
-  }
-  fin.close();
-  fin.open(file_name);
-  for (int i = 0; i < elements; i++) {
-    fin >> str;
-    this->Insert(atoi(str.c_str()));
+  int key;
+  while (fin >> key) {
+    Insert(key);
   }
   return true;
 }
@@ -184,26 +179,25 @@ bool Tree::LoadfromfileTree(Node* root) {
 bool Tree::Loadfromfile() { LoadfromfileTree(root); }
 
 bool Tree::Verification(Node*& root, int value) {
-  if (root == nullptr) {
-    cout << "Дерево пусто" << endl;
-    return false;
-    Node* val = root;
-    while (val != nullptr) {
-      if (value < val->key) {
-        val = val->right;
-      } else if (value > val->key) {
-        val = val->left;
-      } else if (val->key == value) {
-        break;
-      }
-    }
-    if (val != nullptr) {
-      cout << "Узел найден" << endl;
-      return true;
-    } else {
-      cout << "Узел не найден" << endl;
+    if (root == nullptr) {
+      cout << "Дерево пусто" << endl;
       return false;
-    }
-  }
+		Node *val = root;
+		while(val != nullptr) {
+			if(val->key = value) {
+		  	cout << "Узел найден" << endl;			  
+			  return true;
+			} else if(val->key < value) {
+				val = val->right;
+			} else if(val->key > value) {
+			  val = val->left;
+			}
+		}
+		if(val == nullptr){
+			cout << "Узел не найден" << endl;
+			return false;
+		}
+	}
 }
-bool Tree::VerificationNode(int value) { Verification(root, value); }
+
+bool Tree::VerificationNode(int value) {Verification(root, value);}
