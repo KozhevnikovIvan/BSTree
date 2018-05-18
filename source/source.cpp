@@ -182,6 +182,7 @@ bool Tree::Verification(Node*& root, int value) {
     if (root == nullptr) {
       cout << "Дерево пусто" << endl;
       return false;
+    }
 		Node *val = root;
 		while(val != nullptr) {
 			if(val->key = value) {
@@ -197,7 +198,6 @@ bool Tree::Verification(Node*& root, int value) {
 			cout << "Узел не найден" << endl;
 			return false;
 		}
-	}
 }
 
 bool Tree::VerificationNode(int value) {Verification(root, value);}
