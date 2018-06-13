@@ -52,16 +52,21 @@ int main(int argc, char *argv[]) {
           cout << "Дерево пусто" << endl;
         break;
       case 3:
-        cout << "Введите значение для нового узла:" << endl;
+        cout << "Введите значение для нового узла:"<<endl;
         int key;
         cin >> key;
         tree->Insert(key);
         break;
       case 4:
-        cout << "Введите значение для нового узла" << endl;
-        int value;
-        cin >> value;
-        tree->Deleten(value);
+        cout << "Введите значение для удаляемого узла" << endl;
+        int val1;
+        cin>>val1;
+        if (!tree->Compare(val1))
+          cout << "Узел не найден в дереве" << endl;
+        else {
+          tree->Deleten(val1);
+          cout << "Узел успешно удален из дерева" << endl;
+        }
         break;
       case 5:
         tree->Write();
@@ -71,9 +76,16 @@ int main(int argc, char *argv[]) {
         tree->Loadfromfile();
         break;
       case 7:
-        cout << "Введите значение для искомого узла" << endl;
-        cin >> value;
-        tree->VerificationNode(value);
+        if (tree->Check()) {
+          cout << "Введите значение для поиска: ";
+          int val2;
+          cin >> val2;
+          if (tree->Compare(val2))
+            cout << "Узел найден" << endl;
+          else
+            cout << "Узел не найден" << endl;
+        } else
+          cout << "Дерево пусто" << endl;
         break;
       case 8: {
         cout << "Вы уверенны, что хотите выйти из программы?" << endl;
