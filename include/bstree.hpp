@@ -12,11 +12,11 @@ class Tree {
   void PreOrderTree(Node* node);
   void InOrderTree(Node* node);
   void PostOrderTree(Node* node);
-  bool Deletenode(Node*& root, int value);
+  void Deletenode(Node*& root, int value);
   void Deletetree(Node *&node);
-  void WriteInFile(Node *root, std::string name);
+  void Writeinfile(Node *root, std::string name);
   bool LoadfromfileTree(Node* root);
-  bool Verification(Node*& root, int value);
+  bool Compare(Node *&root, int value) const;
 
 public:
   Tree();
@@ -26,10 +26,11 @@ public:
   void PreOrder();
   void InOrder();
   void PostOrder();
-  bool Deleten(int value);
+  void Deleten(int value);
   void Deletetr();
   void Write();
   bool Loadfromfile();
-  bool VerificationNode(int value);
+  bool Check() const;
+  bool Compare(int value);
 };
 }
