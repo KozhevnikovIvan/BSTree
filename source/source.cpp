@@ -110,30 +110,37 @@ void Tree::Deletetree(Node*& node) {
 
 void Tree::Deletetr() { Deletetree(root); }
 
-bool Tree::Deletenode(Node*& root, int value) {
-  if (root == nullptr) {
-    return false;
-  }
-  if (value < root->key) {
-    root->left;
+void Tree::Deletenode(Node*& root, int value) {
+  if (value == root->key) {
+    Node* tmp;
+    if (root->right == nullptr)
+      tmp = root->left;
+    else {
+      Node* ptr = root->right;
+      if (ptr->left == nullptr) {
+        ptr->left = root->left;
+        tmp = ptr;
+      } else {
+        Node* pmin = ptr->left;
+        while (pmin->left != nullptr) {
+          ptr = pmin;
+          pmin = ptr->left;
+        }
+        ptr->left = pmin->right;
+        pmin->left = root->left;
+        pmin->right = root->right;
+        tmp = pmin;
+      }
+    }
+    delete root;
+    root = tmp;
+  } else if (value < root->key)
     Deletenode(root->left, value);
-  } else if (value > root->key) {
-    root->right;
-    Deletenode(root->right, value);
-  } else if (root->left != nullptr && root->right != nullptr) {
-    root->key == root->right->key;
-    root->right;
-    Deletenode(root->right, root->key);
-  } else if (root->left == nullptr && root->right == nullptr) {
-    Deletenode(root, value);
-  } else if (root->left != nullptr)
-    root = root->left;
   else
-    root = root->right;
-  return true;
+    Deletenode(root->right, value);
 }
 
-bool Tree::Deleten(int value) { Deletenode(root, value); }
+void Tree::Deleten(int value) { Deletenode(root, value); }
 
 void Tree::Write() {
   string name;
@@ -148,19 +155,19 @@ void Tree::Write() {
   fin.close();
   if ((ch_3 == "y") || (ch_3 == "Да") || (ch_3 == "Yes") || (ch_3 == "да") ||
       (ch_3 == "yes")) {
-    ofstream fout(name, ios_base::out | ios_base::trunc); 
+    ofstream fout(name, ios_base::out | ios_base::trunc);
     fout.close();
-    WriteInFile(root, name);
+    Writeinfile(root, name);
   }
 }
 
-void Tree::WriteInFile(Node* root, std::string name) { 
-  ofstream fout(name, ios::app); 
-  if (root == nullptr) return; 
-  fout << root->key << endl; 
-  WriteInFile(root->left, name); 
-  WriteInFile(root->right, name); 
-  fout.close(); 
+void Tree::Writeinfile(Node* root, std::string name) {
+  ofstream fout(name, ios::app);
+  if (root == nullptr) return;
+  fout << root->key << endl;
+  Writeinfile(root->left, name);
+  Writeinfile(root->right, name);
+  fout.close();
 }
 
 bool Tree::LoadfromfileTree(Node* root) {
@@ -178,26 +185,26 @@ bool Tree::LoadfromfileTree(Node* root) {
 
 bool Tree::Loadfromfile() { LoadfromfileTree(root); }
 
-bool Tree::Verification(Node*& root, int value) {
-    if (root == nullptr) {
-      cout << "Дерево пусто" << endl;
-      return false;
-    }
-		Node *val = root;
-		while(val != nullptr) {
-			if(val->key = value) {
-		  	cout << "Узел найден" << endl;			  
-			  return true;
-			} else if(val->key < value) {
-				val = val->right;
-			} else if(val->key > value) {
-			  val = val->left;
-			}
-		}
-		if(val == nullptr){
-			cout << "Узел не найден" << endl;
-			return false;
-		}
+bool Tree::Check() const {
+  if (root == nullptr)
+    return false;
+  else
+    return true;
 }
 
-bool Tree::VerificationNode(int value) {Verification(root, value);}
+bool Tree::Compare(Node*& root, int value) const {
+  if (value == root->key) return true;
+  if (value < root->key) {
+    if (root->left != nullptr)
+      return Compare(root->left, value);
+    else
+      return false;
+  } else {
+    if (root->right != nullptr)
+      return Compare(root->right, value);
+    else
+      return false;
+  }
+}
+
+bool Tree::Compare(int value) { Compare(root, value); }
